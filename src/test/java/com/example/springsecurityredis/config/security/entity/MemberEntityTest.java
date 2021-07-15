@@ -59,12 +59,14 @@ class MemberEntityTest {
 
         MemberEntity admin = new MemberEntity();
         admin.addRole(SecurityRoles.ADMIN);
+        admin.setUsername("admin");
         admin.attachCompany(companyA);
         admin.attachCompany(companyA);
         admin.attachCompany(companyB);
 
 
         MemberEntity user = new MemberEntity();
+        user.setUsername("user");
         user.addRole(SecurityRoles.USER);
         user.addRole(SecurityRoles.USER);
         user.removeRole(SecurityRoles.ADMIN);
@@ -72,6 +74,13 @@ class MemberEntityTest {
 
         memberEntityRepository.save(admin);
         memberEntityRepository.save(user);
+
+        em.flush();
+        em.clear();
+
+        Optional<MemberEntity> findAdmin = memberEntityRepository.findByUsername("admin");
+        findAdmin.get().addRole(SecurityRoles.USER);
+
 
     }
 }
