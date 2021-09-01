@@ -4,10 +4,13 @@ import com.example.springsecurityredis.config.security.entity.MemberEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.lang.reflect.Member;
 import java.util.Optional;
 
 public interface MemberEntityRepository extends JpaRepository<MemberEntity, Long> {
 
-    @EntityGraph(attributePaths = {"companyMembers"})
-    Optional<MemberEntity> findByUsername(String username);
+//    @EntityGraph(attributePaths = {"companyMembers"})
+//    Optional<MemberEntity> findByUsername(String username);
+
+    Optional<MemberEntity> findByUserUserSeqAndCompanyCompanySeq(long userSeq, long companySeq);
 }

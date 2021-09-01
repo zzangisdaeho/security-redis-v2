@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface CompanyEntityRepository extends JpaRepository<CompanyEntity, Long> {
 
-    Optional<CompanyEntity> findByCompanyName(String companyName);
 }

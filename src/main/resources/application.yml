@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/securityRedis
+    url: jdbc:h2:mem:test
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -13,9 +13,15 @@ spring:
         #        dialect: org.hibernate.dialect.Oracle10gDialect
         #        show_sql: true  #print로 남김
         format_sql: true
+  h2:
+    console:
+      enabled: true
 
 logging.level:
   com.example.springsecurityredis: debug
-  org.springframework: debug
+#  org.springframework: debug
 #  org.hibernate.SQL: debug #log로 남김
 #  org.hibernate.type: trace #parameter보기
+
+server:
+  port: 9000

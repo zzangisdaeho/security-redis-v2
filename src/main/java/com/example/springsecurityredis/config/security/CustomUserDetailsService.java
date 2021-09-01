@@ -2,7 +2,9 @@ package com.example.springsecurityredis.config.security;
 
 import com.example.springsecurityredis.config.security.entity.MemberEntity;
 import com.example.springsecurityredis.config.security.entity.RoleEntity;
+import com.example.springsecurityredis.config.security.entity.UserEntity;
 import com.example.springsecurityredis.repository.MemberEntityRepository;
+import com.example.springsecurityredis.repository.UserEntityRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +30,30 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberEntityRepository memberEntityRepository;
 
+    private final UserEntityRepository userEntityRepository;
+
     private final HttpServletRequest request;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberEntity findMember = memberEntityRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 멤버입니다"));
+    public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
+        //username:companySeq 로 넘어온 id값을 분리해서 식별하기 위함
+        String[] split = input.split(":");
+        String username = split[0];
+        long companySeq = Long.parseLong(split[1]);
 
-        //member_seq를 통해 해당 맴버가 해당 회사에 갖고있는 role리스트 가져와서 grantedAuthorities에 넣어주기
+        UserEntity findUser = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다"));
 
-        request.getParameter("company");
+        //companySeq 유저가 소속되어있는 맴버를 가져온다. 맴버가 회사에 갖고있는 role리스트를 가져온다.
+        MemberEntity findMember = memberEntityRepository.findByUserUserSeqAndCompanyCompanySeq(findUser.getUserSeq(), companySeq)
+                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 맴버 정보입니다."));
 
-       Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
         for (RoleEntity role : findMember.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getSecurityRoles().name()));
         }
 
-        return new CustomUser(findMember, grantedAuthorities);
+        return new CustomUser(findUser, findMember, grantedAuthorities);
     }
 }

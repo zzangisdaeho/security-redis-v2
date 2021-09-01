@@ -19,16 +19,16 @@ public class RoleEntity {
     @Id
     @Enumerated(EnumType.STRING)
     private SecurityRoles securityRoles;
-}
 
-//@Getter
-//enum SecurityRoleList {
-//
-//    ADMIN("관리자"), USER("사용자");
-//
-//    private String ko;
-//
-//    SecurityRoleList(String ko) {
-//        this.ko = ko;
-//    }
-//}
+    @Getter
+    public enum SecurityRoles {
+
+        ADMIN("관리자"), USER("사용자");
+
+        private String ko;
+
+        SecurityRoles(String ko) {
+            this.ko = ko;
+        }
+    }
+}

@@ -1,6 +1,9 @@
 package com.example.springsecurityredis.config.security;
 
 import com.example.springsecurityredis.config.security.entity.MemberEntity;
+import com.example.springsecurityredis.config.security.entity.TeamEntity;
+import com.example.springsecurityredis.config.security.entity.TeamMemberRelationEntity;
+import com.example.springsecurityredis.config.security.entity.UserEntity;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,13 +18,26 @@ import java.util.stream.Collectors;
 @ToString
 public class CustomUser extends User {
 
-    private MemberEntity memberEntity;
+    private WhoAreYou who = new WhoAreYou();
 
-    private List<String> companyList;
+    public CustomUser(UserEntity userEntity, MemberEntity memberEntity, Collection<? extends GrantedAuthority> authorities) {
+        super(userEntity.getUsername(), userEntity.getPassword(), authorities);
 
-    public CustomUser(MemberEntity memberEntity, Collection<? extends GrantedAuthority> authorities) {
-        super(memberEntity.getUsername(), memberEntity.getPassword(), authorities);
-        this.memberEntity = memberEntity;
-        this.companyList = memberEntity.getCompanyMembers().stream().map(e -> e.getCompany().getCompanyName()).collect(Collectors.toList());
+        this.who.memberSeq = memberEntity.getMemberSeq();
+        this.who.userSeq = userEntity.getUserSeq();
+        this.who.companySeq = memberEntity.getCompany().getCompanySeq();
+        this.who.teamsSeq = memberEntity.getTeamMemberRelations().stream().map(TeamMemberRelationEntity::getTeam).map(TeamEntity::getTeamSeq).collect(Collectors.toList());
+    }
+
+    @ToString
+    public class WhoAreYou {
+
+        private long memberSeq;
+
+        private long userSeq;
+
+        private long companySeq;
+
+        private List<Long> teamsSeq;
     }
 }

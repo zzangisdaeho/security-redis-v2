@@ -24,11 +24,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final SessionProvider sessionProvider;
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    private final AuthenticationFilter authenticationFilter;
 
     /**
      * security passwordEncoder bean 등록
@@ -53,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().permitAll();
 
+        http.csrf().disable();
 
         //로그인 설정
         http.formLogin()
@@ -67,6 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //권한 없는 사용자 처리
         http.exceptionHandling()
                 .accessDeniedPage("/denied");
+
+        //h2 console을 출력하기 위한 옵션
+        http.headers().frameOptions().disable();
 
     }
 

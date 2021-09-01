@@ -25,28 +25,19 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         System.out.println("requestUri = " + requestUri);
 
-        if(requestUri.indexOf("/", 2) != -1){
-            String substring = requestUri.substring(1, requestUri.indexOf("/", 2));
-            System.out.println("substring = " + substring);
-        }
-
-
         SecurityContext context = SecurityContextHolder.getContext();
         System.out.println("context : " + context);
 
         Authentication authentication = context.getAuthentication();
         System.out.println("authentication : " + authentication);
 
-        Object principal = authentication.getPrincipal();
-//        if(authentication != null){
-//            principal = authentication.getPrincipal();
-//        }
+        Object principal = null;
+        if(authentication != null){
+            principal = authentication.getPrincipal();
+        }
         System.out.println("principal : " + principal);
 
-
-
         filterChain.doFilter(request, response);
-
 
     }
 

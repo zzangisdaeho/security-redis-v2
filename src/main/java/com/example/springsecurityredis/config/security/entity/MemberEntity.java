@@ -1,81 +1,54 @@
 package com.example.springsecurityredis.config.security.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.extern.log4j.Log4j2;
+import com.example.springsecurityredis.config.security.entity.RoleEntity.SecurityRoles;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Setter
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Slf4j
-@ToString(exclude = "companyMembers")
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR",
+        sequenceName = "MEMBER_SEQ"
+)
+@EqualsAndHashCode(of = "memberSeq")
 public class MemberEntity {
 
     @Id
-    @GeneratedValue
-    private long memberSeq;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
+    private int memberSeq;
 
-    @Column(unique = true)
-    private String username;
-    private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "companySeq")
+    private CompanyEntity company;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<CompanyMemberR> companyMembers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userSeq")
+    private UserEntity user;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "MEMBER_ROLE_R",
-            joinColumns = @JoinColumn(name = "MEMBER_ID"),
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<TeamMemberRelationEntity> teamMemberRelations = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "MEMBER_ROLE_RELATION_ENTITY",
+            joinColumns = @JoinColumn(name = "MEMBER_SEQ"),
             inverseJoinColumns = @JoinColumn(name = "ROLE")
     )
+    @Builder.Default
     private Set<RoleEntity> roles = new HashSet<>();
 
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
-
-    @PrePersist
-    private void prePersist(){
-        LocalDateTime now = LocalDateTime.now();
-        createdDate = now;
-        updatedDate = now;
-    }
-
-    @PreUpdate
-    private void preUpdate(){
-        updatedDate = LocalDateTime.now();
-    }
-
-    public void attachCompany(CompanyEntity company){
-        long count = companyMembers.stream().filter(e -> ((e.getCompany().getCompanySeq() == company.getCompanySeq()) && (e.getMember().getMemberSeq() == this.memberSeq))).count();
-        if(count > 0){
-            log.debug("=======================이미 소속된 맴버입니다");
-        }else{
-            CompanyMemberR companyMemberR = CompanyMemberR.builder().member(this).company(company).build();
-            companyMembers.add(companyMemberR);
-            company.registMember(this);
-        }
-
-    }
-
-    public void detachCompany(CompanyEntity company){
-        long count = companyMembers.stream().filter(e -> ((e.getCompany().getCompanySeq() == company.getCompanySeq()) && (e.getMember().getMemberSeq() == this.memberSeq))).count();
-        if(count < 1){
-            log.debug("==========================소속되지 않은 맴버입니다");
-        }else{
-            companyMembers.remove(company);
-        }
-    }
-
-
     public void addRole(SecurityRoles role){
+        System.out.println("role ? = " + roles);
         if(this.roles.stream().filter(e -> e.getSecurityRoles() == role).count() == 0){
             this.roles.add(new RoleEntity(role));
         }else{
@@ -90,5 +63,4 @@ public class MemberEntity {
             log.debug("존재하지 않는 role 삭제 시도하여 처리안함");
         }
     }
-
 }

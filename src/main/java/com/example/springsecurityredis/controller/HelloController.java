@@ -1,6 +1,7 @@
 package com.example.springsecurityredis.controller;
 
 import com.example.springsecurityredis.config.security.CurrentAccount;
+import com.example.springsecurityredis.config.security.CustomUser;
 import com.example.springsecurityredis.config.security.entity.MemberEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/main")
-    public String main(@CurrentAccount MemberEntity memberEntity) {
+    public String main(@CurrentAccount CustomUser.WhoAreYou who) {
         System.out.println("annotation 작동해??");
-        System.out.println(memberEntity);
-        System.out.println(memberEntity.getCompanyMembers().get(0).getCompany().getCompanyName());
+        System.out.println(who);
+//        System.out.println(memberEntity.getCompanyMembers().get(0).getCompany().getCompanyName());
         return "main";
     }
 
