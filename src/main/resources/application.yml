@@ -19,8 +19,8 @@ spring:
   session:
     store-type: redis
   redis:
-#    host: 127.0.0.12
-    host:
+#    host: 127.0.0.1
+    host: 10.61.97.4
     password:
     port: 6379
 
