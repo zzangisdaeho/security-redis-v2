@@ -16,6 +16,12 @@ spring:
   h2:
     console:
       enabled: true
+  session:
+    store-type: redis
+  redis:
+    host: 10.61.97.4
+    password:
+    port: 6379
 
 logging.level:
   com.example.springsecurityredis: debug

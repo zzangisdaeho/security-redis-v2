@@ -5,10 +5,19 @@ import com.example.springsecurityredis.config.security.CustomUser;
 import com.example.springsecurityredis.config.security.entity.MemberEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class HelloController {
+
+    @GetMapping("/")
+    public String index(HttpSession session) {
+        session.setAttribute("name", "sup2is");
+        return session.getId() + "\nHello " + session.getAttribute("name");
+    }
 
     @GetMapping("/main")
     public String main(@CurrentAccount CustomUser.WhoAreYou who) {
