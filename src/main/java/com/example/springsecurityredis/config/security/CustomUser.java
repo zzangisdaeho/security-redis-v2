@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +31,7 @@ public class CustomUser extends User {
     }
 
     @ToString
-    public class WhoAreYou {
+    public class WhoAreYou implements Serializable {
 
         private long memberSeq;
 
