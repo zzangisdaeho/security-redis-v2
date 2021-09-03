@@ -20,16 +20,20 @@ public class HelloController {
     }
 
     @GetMapping("/main")
-    public String main(@CurrentAccount CustomUser.WhoAreYou who) {
+    public String main(@CurrentAccount CustomUser.WhoAreYou who, HttpSession session) {
         System.out.println("annotation 작동해??");
         System.out.println(who);
-//        System.out.println(memberEntity.getCompanyMembers().get(0).getCompany().getCompanyName());
-        return "main";
+
+        return "THIS IS MAIN " +
+                "\n # your session id = " + session.getId() +
+                "\n # you are = " + who;
     }
 
     @GetMapping("/user/hello")
-    public String hello() {
-        return "hello";
+    public String hello(@CurrentAccount CustomUser.WhoAreYou who, HttpSession session){
+        return "HELLO!!!! " +
+                "\n # your session id = " + session.getId() +
+                "\n # you are = " + who;
     }
 
     @GetMapping("/admin/hello")

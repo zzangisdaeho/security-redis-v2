@@ -97,11 +97,11 @@ public class InitMember {
             // 5. 맴버로 참여한 유저에게 ROLE을 부여한다.
             companyA_user1.addRole(USER);
             companyA_user1.addRole(ADMIN);
-            companyA_user2.addRole(ADMIN);
+            companyA_user2.addRole(USER);
 
             companyB_user1.addRole(USER);
             companyB_user1.addRole(ADMIN);
-            companyB_user2.addRole(ADMIN);
+            companyB_user2.addRole(USER);
 
             // 6. 조직에 팀을 만든다.
             TeamEntity teamA = companyA.registerTeam("teamA");
