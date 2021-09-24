@@ -69,12 +69,14 @@ public class InitMember {
 
             // 2. 유저가 가입한다.
             UserEntity user1 = UserEntity.builder()
-                    .username("user1")
+                    .username("105545666240861076882")
                     .password(passwordEncoder.encode("1234"))
+                    .mail("daeho.kim@softwareinlife.com")
                     .build();
             UserEntity user2 = UserEntity.builder()
                     .username("user2")
                     .password(passwordEncoder.encode("1234"))
+                    .mail("test.t@softwareinlife.com")
                     .build();
 
             userEntityRepository.save(user1);

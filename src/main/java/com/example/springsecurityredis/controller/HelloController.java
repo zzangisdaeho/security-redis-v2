@@ -14,9 +14,8 @@ import javax.servlet.http.HttpSession;
 public class HelloController {
 
     @GetMapping("/")
-    public String index(HttpSession session) {
-        session.setAttribute("name", "sup2is");
-        return session.getId() + "\nHello " + session.getAttribute("name");
+    public String index(@CurrentAccount CustomUser.WhoAreYou who, HttpSession session) {
+        return session.getId() + "\nHello " +"\n" + who;
     }
 
     @GetMapping("/main")

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -30,6 +31,10 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
     private String password;
+
+    private String mail;
+
+    private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
@@ -68,6 +73,10 @@ public class UserEntity {
         }else{
             members.remove(company);
         }
+    }
+
+    public List<CompanyEntity> getCompanyList(){
+        return this.members.stream().map( i -> i.getCompany() ).collect(Collectors.toList());
     }
 
 }

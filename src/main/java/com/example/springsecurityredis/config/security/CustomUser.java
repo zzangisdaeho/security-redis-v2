@@ -28,9 +28,11 @@ public class CustomUser extends User {
         this.who.userSeq = userEntity.getUserSeq();
         this.who.companySeq = memberEntity.getCompany().getCompanySeq();
         this.who.teamsSeq = memberEntity.getTeamMemberRelations().stream().map(TeamMemberRelationEntity::getTeam).map(TeamEntity::getTeamSeq).collect(Collectors.toList());
+        this.who.roles = authorities;
     }
 
     @ToString
+    @Getter
     public class WhoAreYou implements Serializable {
 
         private long memberSeq;
@@ -40,5 +42,8 @@ public class CustomUser extends User {
         private long companySeq;
 
         private List<Long> teamsSeq;
+
+        private Collection<? extends GrantedAuthority> roles;
+
     }
 }

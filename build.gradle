@@ -16,8 +16,22 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring security session redis connect
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Spring aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    //UniRest
+    implementation 'com.mashape.unirest:unirest-java:1.4.9'
+
+
+    //Google APIs
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
+
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
