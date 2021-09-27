@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * 김대호
+ * Google User info DTO
+ */
 @Getter
 @Setter
 @ToString

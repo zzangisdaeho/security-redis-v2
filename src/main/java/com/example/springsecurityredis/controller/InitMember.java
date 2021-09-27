@@ -1,10 +1,7 @@
 package com.example.springsecurityredis.controller;
 
 import com.example.springsecurityredis.config.security.entity.*;
-import com.example.springsecurityredis.repository.CompanyEntityRepository;
-import com.example.springsecurityredis.repository.MemberEntityRepository;
-import com.example.springsecurityredis.repository.RoleEntityRepository;
-import com.example.springsecurityredis.repository.UserEntityRepository;
+import com.example.springsecurityredis.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +43,8 @@ public class InitMember {
         private final CompanyEntityRepository companyEntityRepository;
 
         private final UserEntityRepository userEntityRepository;
+
+        private final TokenInfoEntityRepository tokenInfoEntityRepository;
 
 
         @PersistenceContext
@@ -135,6 +134,11 @@ public class InitMember {
             teamA_1_1.addTeamMember(companyA_user1, true);
             teamA_1_1.addTeamMember(companyA_user2, false);
 
+
+            // test를 위해 27일 3시경 받은 토큰 넣음
+            tokenInfoEntityRepository.save(new TokenInfoEntity(1L,
+                    "ya29.a0ARrdaM_Q3p31HiswHeFq6D-IP1eI2O8sYGu5Q20rEtfM0r8ed5-39PsOWKmH1sI3KTDY3FCu2jTF1xMk43NAdKyk1Rtu_fctiUbDfAE6MRn9bYdzhP4nboShGjr9liBvTyDOcDCiyMHR58a19MKPzmz57QzO",
+                    "1//0eF75_cKzCcKBCgYIARAAGA4SNwF-L9Ir5bBbF7BHnQ4Awy5rGZk1aYzU2j8i66wrTiE6ttsmpgQHe7R-ljkuO5stydMyE5Obgak"));
 
         }
     }

@@ -17,8 +17,10 @@ spring:
   h2:
     console:
       enabled: true
+
   session:
     store-type: redis
+
   redis:
 #    host: 127.0.0.1
     host: 34.80.121.167

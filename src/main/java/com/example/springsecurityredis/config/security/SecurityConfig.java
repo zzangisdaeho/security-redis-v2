@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,6 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * 김대호
+ * Spring Security를 위한 기본 설정 클래스
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -29,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /**
+     * 김대호
      * security passwordEncoder bean 등록
      * @return
      */
@@ -38,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * 김대호
      * security의 http설정
      * @param http
      * @throws Exception
@@ -70,9 +77,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //h2 console을 출력하기 위한 옵션
         http.headers().frameOptions().disable();
 
+        //TwoFactorAuthenticationFilter 등록
+        http.addFilter(generateCustomAuthenticationFilter());
+
     }
 
     /**
+     * 김대호
      * CustomUserDetailService를 사용하도록 설정
      * @param auth
      * @throws Exception
@@ -80,5 +91,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    /**
+     * 김대호
+     * TwoFactorAuthenticationFilter에 AuthenticationManaber를 Set하여 Filter에 제공하기 위한 메서드
+     * @return
+     * @throws Exception
+     */
+    private TwoFactorAuthenticationFilter generateCustomAuthenticationFilter() throws Exception {
+        TwoFactorAuthenticationFilter twoFactorAuthenticationFilter = new TwoFactorAuthenticationFilter();
+        twoFactorAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return twoFactorAuthenticationFilter;
     }
 }

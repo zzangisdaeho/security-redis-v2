@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.lang.reflect.Member;
 import java.util.Optional;
 
+/**
+ * 김대호
+ */
 public interface MemberEntityRepository extends JpaRepository<MemberEntity, Long> {
 
 //    @EntityGraph(attributePaths = {"companyMembers"})

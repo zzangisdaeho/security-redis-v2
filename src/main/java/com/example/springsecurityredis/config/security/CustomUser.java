@@ -15,6 +15,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 김대호
+ * Security User를 가공한 클래스
+ * Gcp Redis Session과 연동되어있다.
+ * 유저 특정성을 위해 필요한 정보 (userSeq, memberSeq, companySeq, teamsSeq, roles)를 추가로 담는다.
+ * WhoAreYou class는 추후 Custom Annotation을 통해 유저를 손쉽게 특정하기 위해 inner class로 제작
+ */
 @Getter
 @ToString
 public class CustomUser extends User {

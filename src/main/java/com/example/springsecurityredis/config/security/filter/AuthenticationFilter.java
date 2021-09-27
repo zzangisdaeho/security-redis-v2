@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 김대호
+ * Request에 대한 요청 정보 및, Security Context를 확인하기 위한 Filter (임시 사용중)
+ */
 @RequiredArgsConstructor
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {

@@ -23,6 +23,12 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * 김대호
+ * Spring Security Login Process를 위한 UserDetailsService 구현체
+ * username:companySeq 형식으로 정보를 받아 유저를 특정하여 session 생성한다.
+ * GCP redis와 연동되어있음.
+ */
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,6 +42,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
+
+        System.out.println("input value : ");
+        System.out.println(input);
+
         //username:companySeq 로 넘어온 id값을 분리해서 식별하기 위함
         String[] split = input.split(":");
         String username = split[0];
