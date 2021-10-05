@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 김대호
+ * Audit 등록 필요
+ */
 @Entity
 @Getter
 @Slf4j

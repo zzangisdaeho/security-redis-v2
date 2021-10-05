@@ -7,6 +7,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.FileCopyUtils;
@@ -14,18 +15,33 @@ import org.springframework.util.FileCopyUtils;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+/**
+ * 김대호
+ * Bean 등록용
+ */
 @Configuration
 public class BeanConfig {
 
     /**
      * 김대호
      * ObjectMapper 등록. unknown property에 대한 fail하지 않도록 설정.
-     * DTO transport를 위해 사용.
+     * Deserialize를 위해 사용.
      * @return
      */
     @Bean
     public ObjectMapper registryObjectMapper(){
         return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    /**
+     * 김대호
+     * ModelMapper 등록. standard matching strategy(default)
+     * DTO mapping을 위해 사용
+     * @return
+     */
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
     /**
@@ -51,7 +67,7 @@ public class BeanConfig {
                 FileCopyUtils.copyToString(
                         new InputStreamReader(
                                 Objects.requireNonNull(
-                                        LoginController.class.getClassLoader().getResourceAsStream("client_secret_test.json")
+                                        getClass().getClassLoader().getResourceAsStream("client_secret_test.json")
                                 )
                         ))).getJSONObject("web");
     }

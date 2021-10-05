@@ -26,11 +26,14 @@ public class TokenService {
      * @return
      */
     @Cacheable(value = "tokens", key = "#userSeq")
-    public TokenInfoEntity getToken(long userSeq){
+    public TokenInfoEntity getToken(long userSeq) throws Exception {
         TokenInfoEntity tokenInfoEntity = tokenInfoEntityRepository.findById(userSeq).orElseThrow(() -> new UsernameNotFoundException("없는 유저시퀀스입니다."));
 
         System.out.println("========cacheable called=========");
-        System.out.println(tokenInfoEntity);
+
+        if(tokenInfoEntity.getRefreshToken() == null){
+            throw new Exception("GoogleCredentialService.generateCredential error : refreshToken값이 없습니다.");
+        }
 
         return tokenInfoEntity;
     }
@@ -47,6 +50,7 @@ public class TokenService {
     }
 
     /**
+     * 김대호
      * caching한 Token값 삭제
      * @param userSeq
      */

@@ -38,13 +38,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserEntityRepository userEntityRepository;
 
-    private final HttpServletRequest request;
-
     @Override
     public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
-
-        System.out.println("input value : ");
-        System.out.println(input);
 
         //username:companySeq 로 넘어온 id값을 분리해서 식별하기 위함
         String[] split = input.split(":");

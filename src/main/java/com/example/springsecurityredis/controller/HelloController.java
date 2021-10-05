@@ -63,23 +63,25 @@ public class HelloController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/test")
+    @GetMapping("/user/test")
     public String test(){
         return "test통과";
     }
 
-    @GetMapping("/token/{userSeq}")
-    public TokenInfoEntity getToken(@PathVariable long userSeq){
+    @GetMapping("/user/{userSeq}")
+    public TokenInfoEntity getToken(@PathVariable long userSeq) throws Exception {
         TokenInfoEntity token = tokenService.getToken(userSeq);
-
-        System.out.println("========token=========");
-        System.out.println(token);
 
         return token;
     }
 
-    @GetMapping("/driveList/{userSeq}")
-    public void getDriveList(@PathVariable long userSeq) throws GeneralSecurityException, IOException {
+    @GetMapping("/{companyDomain}/driveList/{userSeq}")
+    public void getDriveList(@PathVariable String companyDomain, @PathVariable long userSeq) throws Exception {
         googleDriveService.getDriveListSample(userSeq);
+    }
+
+    @GetMapping("/me")
+    public CustomUser.WhoAreYou who(@CurrentAccount CustomUser.WhoAreYou who){
+        return who;
     }
 }

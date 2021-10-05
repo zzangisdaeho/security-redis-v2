@@ -1,20 +1,16 @@
-package com.example.springsecurityredis.controller;
+package com.example.springsecurityredis.config;
 
 import com.example.springsecurityredis.config.security.entity.*;
 import com.example.springsecurityredis.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import java.util.ArrayList;
-
-import static com.example.springsecurityredis.config.security.entity.RoleEntity.SecurityRoles.*;
+import static com.example.springsecurityredis.config.security.entity.RoleEntity.SecurityRoles.ADMIN;
+import static com.example.springsecurityredis.config.security.entity.RoleEntity.SecurityRoles.USER;
 
 @Component
 @RequiredArgsConstructor
@@ -34,8 +30,6 @@ public class InitMember {
     @RequiredArgsConstructor
     static class InitMemberService{
 
-        private final MemberEntityRepository memberEntityRepository;
-
         private final RoleEntityRepository roleEntityRepository;
 
         private final PasswordEncoder passwordEncoder;
@@ -45,10 +39,6 @@ public class InitMember {
         private final UserEntityRepository userEntityRepository;
 
         private final TokenInfoEntityRepository tokenInfoEntityRepository;
-
-
-        @PersistenceContext
-        private EntityManager em;
 
         /*
         * 로직 흐름
@@ -73,17 +63,18 @@ public class InitMember {
                     .mail("daeho.kim@softwareinlife.com")
                     .build();
             UserEntity user2 = UserEntity.builder()
-                    .username("user2")
+                    .username("110613951683967058165")
                     .password(passwordEncoder.encode("1234"))
-                    .mail("test.t@softwareinlife.com")
+                    .mail("zzangisdaeho@gmail.com")
+                    .name("김대호")
                     .build();
 
             userEntityRepository.save(user1);
             userEntityRepository.save(user2);
 
             // 3. 조직이 만들어진다.
-            CompanyEntity companyA = CompanyEntity.builder().companyName("companyA").build();
-            CompanyEntity companyB = CompanyEntity.builder().companyName("companyB").build();
+            CompanyEntity companyA = CompanyEntity.builder().companyName("companyA").domain("companyA").build();
+            CompanyEntity companyB = CompanyEntity.builder().companyName("companyB").domain("companyB").build();
 
             companyEntityRepository.save(companyA);
             companyEntityRepository.save(companyB);
@@ -135,10 +126,16 @@ public class InitMember {
             teamA_1_1.addTeamMember(companyA_user2, false);
 
 
-            // test를 위해 27일 3시경 받은 토큰 넣음
+            // test를 위해 30일 3시 50경 받은 토큰 넣음
             tokenInfoEntityRepository.save(new TokenInfoEntity(1L,
-                    "ya29.a0ARrdaM_Q3p31HiswHeFq6D-IP1eI2O8sYGu5Q20rEtfM0r8ed5-39PsOWKmH1sI3KTDY3FCu2jTF1xMk43NAdKyk1Rtu_fctiUbDfAE6MRn9bYdzhP4nboShGjr9liBvTyDOcDCiyMHR58a19MKPzmz57QzO",
-                    "1//0eF75_cKzCcKBCgYIARAAGA4SNwF-L9Ir5bBbF7BHnQ4Awy5rGZk1aYzU2j8i66wrTiE6ttsmpgQHe7R-ljkuO5stydMyE5Obgak"));
+                    "ya29.a0ARrdaM_vNvys-IUkZ1UymAn9zS8UUCtDehjMlwpMRDQ6QTLHVf1PdcZVNJPPt8tvygl1e7zDeUFiOd6PrEjmFyF2SpwtrAE3KZQXRx2AuxbR8pLvkRGmoOHM4A7tTpFlHPbsIuiSCYLus2U35jmFh7IUEnBm",
+//                    "1//0eQ_avD2K2Ut2CgYIARAAGA4SNwF-L9Ird2bfykbXgEGu-H98DlfRbxfc8HzqwGqyf3ittchG7R5c8VwNjsm2IpI3cNh73XVRho0"
+                    null
+            ));
+
+            tokenInfoEntityRepository.save(new TokenInfoEntity(2L,
+                    null,
+                    "1//0eq-i7nlUPSerCgYIARAAGA4SNwF-L9IrX1Z0ydVRl_AMOnIZW3cTyOK63RjpUALJmdGXPHDcylKnneKcxKh1WFjD9tcr9U8et58"));
 
         }
     }

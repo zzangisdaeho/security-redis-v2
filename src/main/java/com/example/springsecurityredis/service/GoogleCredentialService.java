@@ -33,7 +33,7 @@ public class GoogleCredentialService {
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public GoogleCredential generateCredential(long userSeq) throws GeneralSecurityException, IOException {
+    public GoogleCredential generateCredential(long userSeq) throws Exception {
         TokenInfoEntity token = tokenService.getToken(userSeq);
 
         return new GoogleCredential.Builder()

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,7 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
-    private int memberSeq;
+    private long memberSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companySeq")
@@ -46,6 +47,19 @@ public class MemberEntity {
     )
     @Builder.Default
     private Set<RoleEntity> roles = new HashSet<>();
+
+    private String name;
+
+    private LocalDate entryDate;
+
+    //사번
+    private String employeeNo;
+
+    //직위
+    private String position;
+
+    //직책
+    private String duty;
 
     public void addRole(SecurityRoles role){
         System.out.println("role ? = " + roles);

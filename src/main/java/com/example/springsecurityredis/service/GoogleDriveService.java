@@ -34,7 +34,7 @@ public class GoogleDriveService {
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public Drive getDrive(long userSeq) throws GeneralSecurityException, IOException {
+    public Drive getDrive(long userSeq) throws Exception {
         GoogleCredential credential = googleCredentialService.generateCredential(userSeq);
 
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -45,7 +45,7 @@ public class GoogleDriveService {
         return service;
     }
 
-    public void getDriveListSample(long userSeq) throws GeneralSecurityException, IOException {
+    public void getDriveListSample(long userSeq) throws Exception {
         Drive service = getDrive(userSeq);
 
         // Print the names and IDs for up to 10 files.

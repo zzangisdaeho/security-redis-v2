@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 /**
  * 김대호
@@ -32,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
 
+    private final AuthenticationFilter authenticationFilter;
 
     /**
      * 김대호
@@ -54,17 +56,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //http 요청 보안
         http.authorizeRequests()
+                .antMatchers("/code", "/h2-console/**", "/common/**", "/main").permitAll()
                 .antMatchers("/user/**").authenticated()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/**/**").authenticated()
+                .antMatchers("/**/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().permitAll();
 
         http.csrf().disable();
 
         //로그인 설정
-        http.formLogin()
+//        http.formLogin()
 //            .loginPage("/login")
 //            .permitAll()
-        ;
+//        ;
 
         //로그아웃 설정
         http.logout()
@@ -78,7 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         //TwoFactorAuthenticationFilter 등록
-        http.addFilter(generateCustomAuthenticationFilter());
+        http.addFilter(generateCustomAuthenticationFilter())
+//            .addFilterBefore(authenticationFilter, LogoutFilter.class)
+            .addFilterAfter(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 

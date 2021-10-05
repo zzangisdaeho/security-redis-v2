@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class LoginControllerTest {
 

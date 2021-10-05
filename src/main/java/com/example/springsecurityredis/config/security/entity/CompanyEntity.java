@@ -26,6 +26,9 @@ public class CompanyEntity {
     @Column(unique = true)
     private String companyName;
 
+    @Column(unique = true, nullable = false)
+    private String domain;
+
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @Builder.Default
     private List<MemberEntity> members = new ArrayList<>();
